@@ -34,6 +34,7 @@ export default class ActionSheet extends Component {
          *          action: () => {}, //PropTypes.func,
          *          textStyle: {} //Text.propTypes.style,
          *          textViewStyle: {} //View.propTypes.style,
+         *          testID: "testID", //PropTypes.string
          *      },
          *      ...
          * ]
@@ -200,6 +201,7 @@ export default class ActionSheet extends Component {
                 <TouchableOpacity
                     key={'title'+i}
                     onPress={() => {this.hide(title);}}
+                    testID={title.testID}
                     style={[styles.item, this.state.textViewStyle, title.textViewStyle]}
                 >
                     <Text style={[styles.defaultTextStyle, this.state.defaultTextStyle, titleStyle, title.textStyle]}>{title.title}</Text>
