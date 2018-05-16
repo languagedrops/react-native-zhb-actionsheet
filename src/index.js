@@ -48,7 +48,9 @@ export default class ActionSheet extends Component {
         defaultTextStyle: Text.propTypes.style,
         cancelTextStyle: Text.propTypes.style,
         destructiveTextStyle: Text.propTypes.style,
-        textViewStyle: ViewPropTypes.style
+        textViewStyle: ViewPropTypes.style,
+        info: PropTypes.string,
+        infoTextStyle: Text.propTypes.style,
     };
 
     static defaultProps = {
@@ -161,7 +163,7 @@ export default class ActionSheet extends Component {
     }
 
     hide(title) {
-        
+
         Animated.timing(
             this.state.fadeAnim,
             {toValue: 0, duration: kDefaultAnimateDuration},
@@ -189,6 +191,17 @@ export default class ActionSheet extends Component {
             scrollEnable: height > maxContainerHeight,
             containerHeight: height > maxContainerHeight ? maxContainerHeight : height
         });
+    }
+
+    _renderInfo() {
+      if (!this.props.info) { return null }
+
+      return (
+        <View>
+          <Text style={ [styles.infoTextStyle, this.props.infoTextStyle] }>{ this.props.info }</Text>
+          <View style={ styles.line }/>
+        </View>
+      )
     }
 
     _renderTitlesView(titles) {
@@ -274,6 +287,7 @@ export default class ActionSheet extends Component {
                             {transform: [{translateY: this.state.fadeAnim.interpolate({inputRange: [0, 1],outputRange: [this.state.containerHeight, 0]})}]}
                             ]}
                     >
+                        {this._renderInfo()}
                         {this._renderDefaultTitles()}
                         {this._renderCancelTitles()}
                     </Animated.View>
@@ -317,5 +331,11 @@ const styles = StyleSheet.create({
         height: kDefault1Px,
         backgroundColor: '#dddddd',
         margin: 0
+    },
+    infoTextStyle: {
+        textAlign: 'center',
+        fontSize: 16,
+        color: '#333333',
+        padding: 16,
     }
 });
